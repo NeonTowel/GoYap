@@ -13,7 +13,12 @@ type Request struct {
 	SessionState interface{}            `json:"session_state,omitempty"`
 }
 
+// Choice represents individual choices in Azure OpenAI response
+type Choice struct {
+	Message Message `json:"message"`
+}
+
 // Response represents the response from Azure OpenAI
 type Response struct {
-	Content string `json:"content"`
+	Choices []Choice `json:"choices"`
 }

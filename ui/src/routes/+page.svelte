@@ -1,2 +1,22 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script lang="ts">
+  import Chat from './Chat.svelte';
+</script>
+
+<div class="page-container bg-dark-800 text-white font-roboto h-full w-full flex items-center justify-center">
+  <Chat />
+</div>
+
+<style>
+  .page-container {
+    background-color: #282828; /* Dark slate gray */
+    font-size: 1rem; /* Maintain consistent font size with chat messages */
+  }
+
+  .h-full {
+    height: 100%;
+  }
+
+  .w-full {
+    width: 100%;
+  }
+</style>

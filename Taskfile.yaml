@@ -16,23 +16,24 @@ tasks:
       - yarn install
       - yarn build
 
-  # Task to build the Go application
-  build-go:
-    desc: Task to build the Go application
-    cmds:
-      - go build -o bin/app{{if eq .OS "windows"}}.exe{{end}} main.go
-
-  # Task to run the Go application
-  run-go:
-    desc: Task to run the Go application
-    cmds:
-      - ./bin/app{{if eq .OS "windows"}}.exe{{end}}
-
   run-ui:
     desc: Task to run the UI in development mode using Yarn
     dir: ui
     cmds:
       - yarn dev
+
+
+  # Task to build the Go application
+  build-go:
+    desc: Task to build the Go application
+    cmds:
+      - go build -o bin/app{{exeExt}} main.go
+
+  # Task to run the Go application
+  run-go:
+    desc: Task to run the Go application
+    cmds:
+      - go run main.go
 
   # Task to clean build artifacts
   clean:

@@ -8,26 +8,25 @@ import (
 
 // ChatHandler handles chat messages and sends them to Azure OpenAI
 func ChatHandler(c echo.Context) error {
-	// Parse incoming message
-	var message Message
-	if err := c.Bind(&message); err != nil {
+	// Parse incoming message array
+	var request struct {
+		Messages []Message `json:"messages"`
+	}
+	if err := c.Bind(&request); err != nil {
+		c.Logger().Errorf("Failed to bind messages: %v", err)
 		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid message format"})
 	}
 
-	// Retrieve past messages from context
-	pastMessages := getPastMessages(c)
+	// Assume the last message is the current user's input
+	currentMessage := request.Messages[len(request.Messages)-1]
+	pastMessages := request.Messages[:len(request.Messages)-1]
 
-	// Send message to Azure OpenAI
-	response, err := SendToAzureOpenAI(message, pastMessages)
+	// Send messages to Azure OpenAI
+	response, err := SendToAzureOpenAI(currentMessage, pastMessages)
 	if err != nil {
+		c.Logger().Errorf("Failed to communicate with Azure OpenAI: %v", err)
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to communicate with Azure OpenAI"})
 	}
 
 	return c.JSON(http.StatusOK, response)
-}
-
-// getPastMessages retrieves up to 10 past messages from the context
-func getPastMessages(c echo.Context) []Message {
-	// Logic to retrieve past messages
-	return []Message{}
 }
