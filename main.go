@@ -6,6 +6,7 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/neontowel/goyap/pkg/api"
 )
 
 //go:embed ui/dist/***
@@ -20,6 +21,9 @@ func main() {
 	e.GET("/api/hello", func(c echo.Context) error {
 		return c.JSON(200, map[string]string{"message": "Hello from Go!"})
 	})
+
+	// Integrate the chat API endpoint
+	e.POST("/api/chat", api.ChatHandler) // Use the handler from the api package
 
 	e.Use(middleware.StaticWithConfig(middleware.StaticConfig{
 		HTML5:      true,

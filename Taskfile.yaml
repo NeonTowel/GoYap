@@ -1,0 +1,50 @@
+version: '3'
+
+
+tasks:
+  # Default task to list all tasks
+  default:
+    desc: List all available tasks
+    cmds:
+      - task --list
+
+  # Task to build the UI using Yarn
+  build-ui:
+    desc: Task to build the UI using Yarn
+    dir: ui
+    cmds:
+      - yarn install
+      - yarn build
+
+  # Task to build the Go application
+  build-go:
+    desc: Task to build the Go application
+    cmds:
+      - go build -o bin/app{{if eq .OS "windows"}}.exe{{end}} main.go
+
+  # Task to run the Go application
+  run-go:
+    desc: Task to run the Go application
+    cmds:
+      - ./bin/app{{if eq .OS "windows"}}.exe{{end}}
+
+  run-ui:
+    desc: Task to run the UI in development mode using Yarn
+    dir: ui
+    cmds:
+      - yarn dev
+
+  # Task to clean build artifacts
+  clean:
+    desc: Task to clean build artifacts
+    cmds:
+      - rm -rf bin
+      - rm -rf ui/node_modules
+      - rm -rf ui/dist
+
+  # Task to build both the UI and Go application
+  build:
+    desc: Task to build both the UI and Go application
+    cmds:
+      - task build-ui
+      - task build-go
