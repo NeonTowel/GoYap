@@ -10,8 +10,14 @@
   let input: string = '';
   let loading: boolean = false;
 
+  function preprocessContent(content: string) {
+    // Replace double newlines with <br><br> to ensure paragraph spacing
+    return content.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+  }
+
   function renderMarkdown(content: string) {
-    return marked(content);
+    const preprocessedContent = preprocessContent(content);
+    return marked(preprocessedContent);
   }
 
   async function sendMessage() {
@@ -59,8 +65,12 @@
       </div>
     {/each}
     {#if loading}
-      <!-- Typing indicator -->
-      <div class="typing-indicator p-3 text-center">...</div>
+      <!-- Animated typing indicator -->
+      <div class="typing-indicator flex space-x-2 items-center">
+        <div class="dot animation-scale-dot1"></div>
+        <div class="dot animation-scale-dot2"></div>
+        <div class="dot animation-scale-dot3"></div>
+      </div>
     {/if}
   </div>
   <div class="input-container fixed bottom-0 p-4 w-full flex justify-between bg-dark">
@@ -69,10 +79,16 @@
 </div>
 
 <style>
+  @keyframes scale {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+  }
+
   .chat-container {
     width: 100%;
     height: 100vh;
     position: relative;
+    font-size: inherit; /* Ensure font size is inherited */
   }
 
   .messages {
@@ -81,10 +97,11 @@
     padding-bottom: 60px;
     padding: 20px;
     font-family: 'Roboto', sans-serif;
+    font-size: 1.08rem; /* Increase font size by 10% from 0.98rem to 1.08rem */
   }
 
   .message {
-    font-size: 1rem;
+    font-size: inherit; /* Ensure messages use inherited font size */
     text-align: left;
   }
 
@@ -108,8 +125,28 @@
   }
 
   .typing-indicator {
-    font-size: 1rem;
-    color: #999;
+    text-align: left;
+    margin-left: 20px; /* Align to the left side, similar to assistant response */
+    margin-top: 5px;
+  }
+
+  .dot {
+    width: 9.6px; /* Decrease size by 20% from 12px to 9.6px */
+    height: 9.6px; /* Decrease size by 20% from 12px to 9.6px */
+    background-color: #999;
+    border-radius: 50%;
+  }
+
+  .animation-scale-dot1 {
+    animation: scale 1s infinite ease-in-out;
+  }
+
+  .animation-scale-dot2 {
+    animation: scale 1s infinite ease-in-out 0.2s;
+  }
+
+  .animation-scale-dot3 {
+    animation: scale 1s infinite ease-in-out 0.4s;
   }
 
   .input-container {

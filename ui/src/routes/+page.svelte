@@ -9,7 +9,8 @@
 <style>
   .page-container {
     background-color: #282828; /* Dark slate gray */
-    font-size: 1rem; /* Maintain consistent font size with chat messages */
+    font-family: 'Roboto', sans-serif; /* Ensures Roboto will be used */
+    font-size: inherit; /* Use inherited font size */
   }
 
   .h-full {

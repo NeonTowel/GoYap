@@ -10,6 +10,8 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
+    font-family: 'Roboto', sans-serif; /* Apply Roboto globally if not set */
+    font-size: 1.4rem; /* Consistent font size */
   }
 
   .layout-container {
@@ -20,7 +22,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 1rem;
+    font-size: inherit; /* Use inherited font size */
   }
 </style>
 
